@@ -1,6 +1,7 @@
 import Drawer from "./Drawer";
 
 class Canvas{
+  public canvas: any
   public ctx: CanvasRenderingContext2D;
   public offset;
   public fixedX;
@@ -12,7 +13,7 @@ class Canvas{
   public debug;
   public drawer;
 
-  constructor(canvas,config){
+  constructor(canvas: any,config: any){
     this.canvas = canvas;
     
     this.ctx = canvas.getContext('2d');

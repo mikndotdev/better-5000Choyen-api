@@ -8,8 +8,9 @@ class Drawer{
   public logo: Hosii = new Hosii();
   public generator: Generator;
   public fixedHeight = 220;
+  public config: any
 
-  constructor(ctx: CanvasRenderingContext2D, config){
+  constructor(ctx: CanvasRenderingContext2D, config: any){
     this.ctx = ctx;
     this.generator = new Generator(this.ctx);
     this.config = config;
@@ -256,7 +257,7 @@ class Drawer{
     this.ctx.lineWidth = 22;
     this.ctx.strokeText(text, posX + 5,posY + 2);
 
-    const silver1 = this.ctx.createLinearGradient(0, y-80, 0, y+18);
+    const silver1 = this.ctx.createLinearGradient(0, posY-80, 0, posY+18);
     silver1.addColorStop(0, 'rgb(0,15,36)');
     silver1.addColorStop(0.25, 'rgb(250,250,250)');
     silver1.addColorStop(0.5, 'rgb(150,150,150)');
@@ -397,10 +398,10 @@ class Drawer{
     if(this.logo.isLoaded()){
       this.logo.drawTo(this.ctx,posX,posY);
     }else{
-      this.logo.self.onload = function(){
+      this.logo.self.onload = ()=>{
         this.logo.drawTo(this.ctx, posX, posY);
-        if(callback) callback();
-      }.bind(this);
+        if (callback) callback();
+      }      
     }
   
     this.actualWidth.bottom = 370 + posX;

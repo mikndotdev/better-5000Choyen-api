@@ -22,7 +22,7 @@ class Generator{
     stream.pipe(out);
   }
 
-  public createBuffer(width: number,height: number,type: "jpeg" | "png",callback,quality: number){
+  public createBuffer(width: number,height: number,type: "jpeg" | "png",callback: any,quality: number){
     const data = this.ctx.getImageData(0,0,width,height);
     const canvasWidth = data.width;
     const canvasHeight = data.height - 10;
@@ -42,7 +42,7 @@ class Generator{
     }else if(type === "png"){
       encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
     }
-    
+
     canvas.toBuffer((err,buf)=>{
       if(err){
         console.log(err);
@@ -50,7 +50,7 @@ class Generator{
         return;
       }
       return callback(buf);
-    },`image/${type}`,encodeOption);
+    },`image/jpeg`,encodeOption);
   }  
 }
 
