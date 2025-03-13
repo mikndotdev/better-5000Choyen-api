@@ -1,59 +1,5 @@
-/* globals SETTINGS, Hoshii, Generator */
-
 import Hosii from "./Hosii";
-
-const { Generator } = require('./generator.js');
-var Drawer = function(ctx, config) {
-  this.ctx         = ctx;
-  this.actualWidth = { top: 0, bottom: 0 };
-  this.actualHeight = 0;
-  this.logo        = new Hoshii();
-  this.generator   = new Generator(this.ctx);
-  this.config = config;
-  this.fixedHeight = 220;
-}
-
-Drawer.prototype.redrawImage = function(x, y, bgColor, callback) {
-  this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-  switch(bgColor) {
-    case `white`:
-      this.ctx.fillStyle = `white`;
-      this.ctx.fillRect(0, 130, this.ctx.canvas.width, this.ctx.canvas.height / 2 + 10);
-      break;
-    case `transparent`:
-      this.ctx.clearRect(0, 130, this.ctx.canvas.width, this.ctx.canvas.height / 2 + 10);
-      break;
-  }
-
-  if (this.logo.isLoaded()) {
-    this.logo.drawTo(this.ctx, x, y);
-  } else {
-    this.logo.self.onload = function() {
-      this.logo.drawTo(this.ctx, x, y);
-      if (callback) callback();
-    }.bind(this);
-  }
-
-  this.actualWidth.bottom = 370 + x;
-  this.actualHeight = 200 + y;
-
-  if (callback) callback();
-}
-
-Drawer.prototype.save = function() {
-  const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
-  //const width = this.ctx.canvas.width;
-  const height = this.ctx.canvas.height / 4;
-  this.generator.save(width, height);
-}
-
-Drawer.prototype.createBuffer = function (t, callback, q) {
-  const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
-  //const height = this.ctx.canvas.height / 4;
-  const height = this.actualHeight - 60;
-  this.generator.createBuffer(width, height, t, callback, q);
-}
+import Generator from "./Generater";
 
 class Drawer{
   public ctx: CanvasRenderingContext2D;
@@ -157,7 +103,7 @@ class Drawer{
     }
   }
 
-  redrawTop_reinbow(text: string,posX: number,posY: number,bgColor: string){
+  redrawTop_rainbow(text: string,posX: number,posY: number,bgColor: string){
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notobk";
   
@@ -433,5 +379,49 @@ class Drawer{
     }else{
       this.actualHeight = this.fixedHeight;
     }
-  }  
+  }
+
+  redrawImage(posX: number,posY: number, bgColor: string, callback?: any){
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+  
+    switch(bgColor){
+      case "white":
+        this.ctx.fillStyle = "white";
+        this.ctx.fillRect(0, 130, this.ctx.canvas.width, this.ctx.canvas.height / 2 + 10);
+        break;
+      case "transparent":
+        this.ctx.clearRect(0, 130, this.ctx.canvas.width, this.ctx.canvas.height / 2 + 10);
+        break;
+    }
+  
+    if(this.logo.isLoaded()){
+      this.logo.drawTo(this.ctx,posX,posY);
+    }else{
+      this.logo.self.onload = function(){
+        this.logo.drawTo(this.ctx, posX, posY);
+        if(callback) callback();
+      }.bind(this);
+    }
+  
+    this.actualWidth.bottom = 370 + posX;
+    this.actualHeight = 200 + posY;
+  
+    if (callback) callback();
+  }
+
+  save(){
+    const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
+
+    const height = this.ctx.canvas.height / 4;
+    this.generator.save(width, height);
+  }
+
+  createBuffer(type: "jpeg" | "png",callback: any,quality: number){
+    const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
+
+    const height = this.actualHeight - 60;
+    this.generator.createBuffer(width, height, type, callback, quality);
+  }
 }
+
+export default Drawer;

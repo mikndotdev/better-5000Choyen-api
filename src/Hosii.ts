@@ -1,7 +1,7 @@
 import { Image } from "canvas";
 
 class Hosii{
-  private readonly self: Image = new Image();
+  private readonly self: InstanceType<typeof Image> = new Image();
 
   constructor(){
     this.self.src = "images/hosii.png";
