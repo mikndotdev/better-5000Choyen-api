@@ -4,7 +4,7 @@ import { Option } from "./@types";
 import fs from "fs";
 
 const top = "ああああああ";
-const bottom = "いいいいい"
+const bottom = "いいいいい";
 
 const option: Option = {
   hoshii: false,
