@@ -1,10 +1,11 @@
 import Render from "./Render";
 import { createCanvas, registerFont } from "canvas";
 import { Option } from "./@types";
+import { join } from "path";
 
 const generate = (top: string,bottom: string,option: Option): Buffer=>{
-  registerFont("./src/font/notobk-subset.otf",{ family: "notobk" });
-  registerFont("./src/font/notoserifbk-subset.otf",{ family: "notoserifbk" });
+  registerFont(join(__dirname,"./font/notobk-subset.otf"),{ family: "notobk" });
+  registerFont(join(__dirname,"./font/notoserifbk-subset.otf"),{ family: "notoserifbk" });
   
   const render = new Render(createCanvas(3840,1080),option);
   
