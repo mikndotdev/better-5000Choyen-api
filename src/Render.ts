@@ -94,8 +94,8 @@ class Render{
     this.drawer.drawImage(posX,posY,order);
   }
 
-  public createBuffer(type: "jpeg" | "png",callback: any,quality: number): void{
-    this.drawer.createBuffer(type,callback,quality);
+  public createBuffer(type: "jpeg" | "png",quality: number): Buffer{
+    return this.drawer.createBuffer(type,quality);
   }
 }
 

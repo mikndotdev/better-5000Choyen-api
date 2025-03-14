@@ -409,7 +409,7 @@ class Drawer{
     if(callback) callback();
   }
 
-  public createBuffer(type: "jpeg" | "png",callback: any,quality: number): void{
+  public createBuffer(type: "jpeg" | "png",quality: number): Buffer{
     const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
     const height = this.actualHeight - 60;
 
@@ -427,28 +427,12 @@ class Drawer{
     }
   
     if(type === "jpeg"){
-      canvas.toBuffer((err,buf)=>{
-        if(err){
-          console.log(err);
-          callback("error");
-          return;
-        }
-
-        return callback(buf);
-      },`image/jpeg`,{ quality: quality ? quality/100 : 0.8});
-    }else if(type === "png"){
-      //encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
-
-      canvas.toBuffer((err,buf)=>{
-        if(err){
-          console.log(err);
-          callback("error");
-          return;
-        }
-
-        return callback(buf);
-      },`image/png`,{ compressionLevel: 0 });
+      return canvas.toBuffer(`image/jpeg`,{ quality: quality ? quality/100 : 0.8});
     }
+
+    //encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
+
+    return canvas.toBuffer(`image/png`,{ compressionLevel: 0 });
   }
 }
 

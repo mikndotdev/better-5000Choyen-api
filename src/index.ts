@@ -10,7 +10,7 @@ const option: Option = {
   hoshii: false,
   noalpha: true,
   rainbow: false,
-  imgtype: "jpeg",
+  imgtype: "png",
   single: false,
   debug: false
 }
@@ -36,12 +36,12 @@ if(!option.single){
   }
 }
 
-render.createBuffer(option.imgtype,(data: Buffer)=>{
-   fs.writeFile(`output.${option.imgtype}`,data,(err: Error | null)=>{
-    if(err){
-      console.error("画像保存中にエラーが発生しました:",err);
-    }else{
-      console.log("画像が正常に保存されました");
-    }
-  });
-},80);
+const data = render.createBuffer(option.imgtype,100);
+
+fs.writeFile(`output.${option.imgtype}`,data,(err: Error | null)=>{
+  if(err){
+    console.error("画像保存中にエラーが発生しました:",err);
+  }else{
+    console.log("画像が正常に保存されました");
+  }
+});
