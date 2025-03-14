@@ -1,4 +1,4 @@
-import Canvas from "./Canvas";
+import Render from "./Render";
 import { createCanvas, registerFont } from "canvas";
 import { Option } from "./@types";
 import fs from "fs";
@@ -18,7 +18,7 @@ const option: Option = {
 registerFont("./src/notobk-subset.otf", {family: "notobk"});
 registerFont("./src/notoserifbk-subset.otf", {family: "notoserifbk"});
 
-const canvas = new Canvas(createCanvas(3840,1080),option);
+const canvas = new Render(createCanvas(3840,1080),option);
 
 if(!option.single){
   canvas.redrawTop(top,option.rainbow);

@@ -1,6 +1,7 @@
 import Hosii from "./Hosii";
 import Generator from "./Generator";
 import { CanvasRenderingContext2D } from "canvas";
+import { Option } from "./@types";
 
 class Drawer{
   public ctx: CanvasRenderingContext2D;
@@ -8,10 +9,10 @@ class Drawer{
   public actualHeight: number = 0;
   public logo: Hosii = new Hosii();
   public generator: Generator;
-  public fixedHeight = 220;
-  public config: any
+  public fixedHeight: number = 220;
+  public config: Option
 
-  constructor(ctx: CanvasRenderingContext2D, config: any){
+  constructor(ctx: CanvasRenderingContext2D, config: Option){
     this.ctx = ctx;
     this.generator = new Generator(this.ctx);
     this.config = config;

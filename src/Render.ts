@@ -1,9 +1,9 @@
 import Drawer from "./Drawer";
-import { CanvasRenderingContext2D } from "canvas";
+import { CanvasRenderingContext2D, Canvas } from "canvas";
 import { Option } from "./@types";
 
-class Canvas{
-  public canvas: any
+class Render{
+  public canvas: Canvas
   public ctx: CanvasRenderingContext2D;
   public offset;
   public fixedX: number;
@@ -15,7 +15,7 @@ class Canvas{
   public debug: boolean;
   public drawer: Drawer;
 
-  constructor(canvas: any,config: Option){
+  constructor(canvas: Canvas,config: Option){
     this.canvas = canvas;
     
     this.ctx = canvas.getContext("2d");
@@ -40,14 +40,6 @@ class Canvas{
     this.debug = config.debug;
 
     this.drawer = new Drawer(this.ctx,config);
-  }
-
-  public upperEndPosition(): number{
-    return this.canvas.getBoundingClientRect().top + this.offset.bottom.y;
-  }
-  
-  public lowerEndPosition(): number{
-    return this.canvas.getBoundingClientRect().top + (this.canvas.height - 10);
   }
 
   public redrawTop(text: string, isRainbow: boolean): void{
@@ -111,4 +103,4 @@ class Canvas{
   }
 }
 
-export default Canvas;
+export default Render;
