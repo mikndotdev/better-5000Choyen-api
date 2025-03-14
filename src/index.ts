@@ -18,25 +18,25 @@ const option: Option = {
 registerFont("./src/notobk-subset.otf", {family: "notobk"});
 registerFont("./src/notoserifbk-subset.otf", {family: "notoserifbk"});
 
-const canvas = new Render(createCanvas(3840,1080),option);
+const render = new Render(createCanvas(3840,1080),option);
 
 if(!option.single){
-  canvas.drawTop(top,option.rainbow);
+  render.drawTop(top,option.rainbow);
 
   if(!option.hoshii){
-    canvas.drawBottom(bottom,null,option.rainbow);
+    render.drawBottom(bottom,null,option.rainbow);
   }else{
-    canvas.drawImage();
+    render.drawImage();
   }
 }else{
   if(top){
-    canvas.drawTop(top,option.rainbow);
+    render.drawTop(top,option.rainbow);
   }else{
-    canvas.drawBottom(bottom,null,option.rainbow);
+    render.drawBottom(bottom,null,option.rainbow);
   }
 }
 
-canvas.createBuffer(option.imgtype,(data: Buffer)=>{
+render.createBuffer(option.imgtype,(data: Buffer)=>{
    fs.writeFile(`output.${option.imgtype}`,data,(err: Error | null)=>{
     if(err){
       console.error("画像保存中にエラーが発生しました:",err);
