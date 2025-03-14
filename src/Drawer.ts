@@ -381,7 +381,7 @@ class Drawer{
     }
   }
 
-  public drawImage(posX: number,posY: number,bgColor: string,callback?: any): void{
+  public drawImage(posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
   
     switch(bgColor){
@@ -399,18 +399,15 @@ class Drawer{
     }else{
       this.logo.self.onload = ()=>{
         this.logo.drawTo(this.ctx,posX,posY);
-        if(callback) callback();
       }      
     }
   
     this.actualWidth.bottom = 370 + posX;
     this.actualHeight = 200 + posY;
-  
-    if(callback) callback();
   }
 
   public createBuffer(type: "jpeg" | "png",quality: number): Buffer{
-    const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
+    const width = Math.max(this.actualWidth.top,this.actualWidth.bottom);
     const height = this.actualHeight - 60;
 
     const data = this.ctx.getImageData(0,0,width,height);
@@ -427,12 +424,16 @@ class Drawer{
     }
   
     if(type === "jpeg"){
-      return canvas.toBuffer(`image/jpeg`,{ quality: quality ? quality/100 : 0.8});
+      return canvas.toBuffer("image/jpeg",{ quality: quality ? quality/100 : 0.8});
     }
 
-    //encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
+    return canvas.toBuffer("image/png",{ compressionLevel: this.calcCompressLevel(quality) });
+  }
 
-    return canvas.toBuffer(`image/png`,{ compressionLevel: 0 });
+  private calcCompressLevel(quality: number): 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 {
+    const fixedQuality = Math.max(0,Math.min(quality,100));
+
+    return Math.floor((fixedQuality/100)*10) as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   }
 }
 
