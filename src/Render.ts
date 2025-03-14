@@ -42,7 +42,7 @@ class Render{
     this.drawer = new Drawer(this.ctx,config);
   }
 
-  public redrawTop(text: string, isRainbow: boolean): void{
+  public drawTop(text: string, isRainbow: boolean): void{
     let posX = 70;
     let posY = 100;
     let order = this.noalpha ? "white" : "transparent";
@@ -54,19 +54,19 @@ class Render{
     }
   
     if(isRainbow){
-      this.drawer.redrawTop_rainbow(text,posX,posY,order);
+      this.drawer.drawTopRainbow(text,posX,posY,order);
     }else{
-      this.drawer.redrawTop(text,posX,posY,order);
+      this.drawer.drawTop(text,posX,posY,order);
     }
   
     if(this.hoshii){
-      this.redrawImage();
+      this.drawImage();
     }else{
-      this.redrawBottom(text,null,isRainbow); //fix commendouted
+      this.drawBottom(text,null,isRainbow); //fix commendouted
     }
   }
   
-  public redrawBottom(txt: string,offsetX: number | null,isRainbow: boolean): void{
+  public drawBottom(txt: string,offsetX: number | null,isRainbow: boolean): void{
     const text = txt.replace(/！/,"!");
     let posX = (offsetX || this.offset.bottom.x) + 70;
     let posY = this.offset.bottom.y + 100;
@@ -79,19 +79,19 @@ class Render{
     }
 
     if(isRainbow){
-      this.drawer.redrawBottom_rainbow(text,posX,posY,order);
+      this.drawer.drawBottomRainbow(text,posX,posY,order);
     }else{
-      this.drawer.redrawBottom(text,posX,posY,order);
+      this.drawer.drawBottom(text,posX,posY,order);
     }
   }
   
-  public redrawImage(offsetX?: number): void{
+  public drawImage(offsetX?: number): void{
     const posX = (offsetX||this.offset.bottom.x) + 70;
     const posY = this.offset.bottom.y;
     let order = this.noalpha ? "white" : "transparent";
 
     if(this.debug) order = "debug";
-    this.drawer.redrawImage(posX,posY,order);
+    this.drawer.drawImage(posX,posY,order);
   }
   
   public save(): void{

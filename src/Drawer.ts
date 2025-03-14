@@ -18,7 +18,7 @@ class Drawer{
     this.config = config;
   }
 
-  public redrawTop(text: string,posX: number,posY: number,bgColor: string): void{
+  public drawTop(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notobk";
   
@@ -106,7 +106,7 @@ class Drawer{
     }
   }
 
-  public redrawTop_rainbow(text: string,posX: number,posY: number,bgColor: string): void{
+  public drawTopRainbow(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notobk";
   
@@ -235,7 +235,7 @@ class Drawer{
     }
   }
 
-  public redrawBottom(text: string,posX: number,posY: number,bgColor: string): void{
+  public drawBottom(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notoserifbk";
   
@@ -310,7 +310,7 @@ class Drawer{
     }
   }
 
-  public redrawBottom_rainbow(text: string, posX: number, posY: number, bgColor: string): void{
+  public drawBottomRainbow(text: string, posX: number, posY: number, bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notoserifbk";
   
@@ -384,7 +384,7 @@ class Drawer{
     }
   }
 
-  public redrawImage(posX: number,posY: number,bgColor: string,callback?: any): void{
+  public drawImage(posX: number,posY: number,bgColor: string,callback?: any): void{
     this.ctx.setTransform(1,0,0,1,0,0);
   
     switch(bgColor){

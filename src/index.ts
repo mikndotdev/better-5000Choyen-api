@@ -21,18 +21,18 @@ registerFont("./src/notoserifbk-subset.otf", {family: "notoserifbk"});
 const canvas = new Render(createCanvas(3840,1080),option);
 
 if(!option.single){
-  canvas.redrawTop(top,option.rainbow);
+  canvas.drawTop(top,option.rainbow);
 
   if(!option.hoshii){
-    canvas.redrawBottom(bottom,null,option.rainbow);
+    canvas.drawBottom(bottom,null,option.rainbow);
   }else{
-    canvas.redrawImage();
+    canvas.drawImage();
   }
 }else{
   if(top){
-    canvas.redrawTop(top,option.rainbow);
+    canvas.drawTop(top,option.rainbow);
   }else{
-    canvas.redrawBottom(bottom,null,option.rainbow);
+    canvas.drawBottom(bottom,null,option.rainbow);
   }
 }
 
