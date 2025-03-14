@@ -1,4 +1,4 @@
-import Hosii from "./Hosii";
+import Hoshii from "./Hoshii";
 import Generator from "./Generator";
 import { CanvasRenderingContext2D } from "canvas";
 import { Option } from "./@types";
@@ -7,7 +7,7 @@ class Drawer{
   public ctx: CanvasRenderingContext2D;
   public actualWidth: { top: number, bottom: number } = { top:0, bottom: 0 };
   public actualHeight: number = 0;
-  public logo: Hosii = new Hosii();
+  public logo: Hoshii = new Hoshii();
   public generator: Generator;
   public fixedHeight: number = 220;
   public config: Option

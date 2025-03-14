@@ -1,6 +1,6 @@
 import { Image, CanvasRenderingContext2D } from "canvas";
 
-class Hosii{
+class Hoshii{
   public self: Image = new Image();
 
   constructor(){
@@ -24,4 +24,4 @@ class Hosii{
   }
 }
 
-export default Hosii;
+export default Hoshii;
