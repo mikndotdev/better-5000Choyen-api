@@ -1,5 +1,6 @@
 import Hosii from "./Hosii";
 import Generator from "./Generater";
+import { CanvasRenderingContext2D } from "canvas";
 
 class Drawer{
   public ctx: CanvasRenderingContext2D;

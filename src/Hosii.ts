@@ -1,10 +1,10 @@
-import { Image } from "canvas";
+import { Image, CanvasRenderingContext2D } from "canvas";
 
 class Hosii{
-  public readonly self: Image = new Image();
+  public self: Image = new Image();
 
   constructor(){
-    this.self.src = "images/hosii.png";
+    this.self.src = "src/images/hoshii.png";
   }
 
   public isLoaded(): boolean{

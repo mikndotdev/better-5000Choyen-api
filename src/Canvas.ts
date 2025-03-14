@@ -1,4 +1,5 @@
 import Drawer from "./Drawer";
+import { CanvasRenderingContext2D } from "canvas";
 
 class Canvas{
   public canvas: any
@@ -38,7 +39,7 @@ class Canvas{
     this.debug = config.debug;
     config.offset = this.offset;
   
-    this.drawer = new Drawer(this.ctx, config);
+    this.drawer = new Drawer(this.ctx,config);
   }
 
   upperEndPosition(){
@@ -53,7 +54,8 @@ class Canvas{
     let posX = 70;
     let posY = 100;
     let order = this.noalpha ? "white" : "transparent";
-    if (this.debug) order = "debug";
+    if(this.debug) order = "debug";
+
     if(this.single){
       posX = this.fixedX;
       posY = 100;
@@ -65,15 +67,15 @@ class Canvas{
       this.drawer.redrawTop(text, posX, posY, order);
     }
   
-    if(this.hoshii === true){
+    if(this.hoshii){
       this.redrawImage();
     }else{
-      //this.redrawBottom(text, isRainbow);
+      this.redrawBottom(text,null,isRainbow); //fix commendouted
     }
   }
   
   redrawBottom(txt: string,offsetX: number | null,isRainbow: boolean){
-    const text  = txt.replace(/！/, `!`);
+    const text = txt.replace(/！/,"!");
     let posX = (offsetX || this.offset.bottom.x) + 70;
     let posY = this.offset.bottom.y + 100;
     let order = this.noalpha ? "white" : "transparent";
@@ -92,7 +94,7 @@ class Canvas{
   }
   
   redrawImage(offsetX?: number){
-    const posX = (offsetX || this.offset.bottom.x) + 70;
+    const posX = (offsetX||this.offset.bottom.x) + 70;
     const posY = this.offset.bottom.y;
     let order = this.noalpha ? "white" : "transparent";
     if (this.debug) order = "debug";
@@ -104,7 +106,7 @@ class Canvas{
   }
   
   createBuffer(type: "jpeg" | "png",callback: any,quality: number){
-    this.drawer.createBuffer(type, callback, quality);
+    this.drawer.createBuffer(type,callback,quality);
   }
 }
 
