@@ -1,5 +1,8 @@
 import Hoshii from "./Hoshii";
-import { CanvasRenderingContext2D, createCanvas } from "canvas";
+import {
+  CanvasRenderingContext2D,
+  createCanvas
+} from "canvas";
 import { Option } from "./@types";
 
 class Drawer{
@@ -307,7 +310,7 @@ class Drawer{
     }
   }
 
-  public drawBottomRainbow(text: string, posX: number, posY: number, bgColor: string): void{
+  public drawBottomRainbow(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notoserifbk";
   

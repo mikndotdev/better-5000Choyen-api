@@ -1,4 +1,7 @@
-import { Image, CanvasRenderingContext2D } from "canvas";
+import {
+  Image,
+  CanvasRenderingContext2D
+} from "canvas";
 
 class Hoshii{
   public self: Image = new Image();

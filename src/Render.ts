@@ -5,10 +5,13 @@ import { Option } from "./@types";
 class Render{
   public canvas: Canvas
   public ctx: CanvasRenderingContext2D;
-  public offset;
-  public fixedX: number;
-  public dragging: boolean;
-  public dragPosition;
+  public offset: { top:{ x: number, y: number }, bottom:{ x: number, y: number } } = {
+    top: { x: 0, y: 0 },
+    bottom: { x: 250, y: 130 }
+  };
+  public fixedX: number = 60;
+  public dragging: boolean = false;
+  public dragPosition: { x0: number, y0: number } = { x0: 0, y0: 0 };
   public hoshii: boolean;
   public noalpha: boolean;
   public single: boolean;
@@ -23,16 +26,6 @@ class Render{
     this.ctx.lineCap = "round";
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-    
-    this.offset = {
-      top: { x: 0, y: 0 },
-      bottom: { x: 250, y: 130 }
-    };
-  
-    this.fixedX = 60;
-  
-    this.dragging = false;
-    this.dragPosition = { x0: 0, y0: 0 };
   
     this.hoshii = config.hoshii;
     this.noalpha = config.noalpha;
@@ -62,7 +55,7 @@ class Render{
     if(this.hoshii){
       this.drawImage();
     }else{
-      this.drawBottom(text,null,isRainbow); //fix commendouted
+      this.drawBottom(text,null,isRainbow);
     }
   }
   

@@ -1,5 +1,8 @@
 import Render from "./Render";
-import { createCanvas, registerFont } from "canvas";
+import {
+  createCanvas,
+  registerFont
+} from "canvas";
 import { Option } from "./@types";
 import fs from "fs";
 
