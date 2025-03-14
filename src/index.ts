@@ -1,21 +1,12 @@
 import Canvas from "./Canvas";
 import { createCanvas, registerFont } from "canvas";
-const fs = require("fs")
+import { Option } from "./@types";
+import fs from "fs";
 
-type Option = {
-  top: string;
-  bottom: string;
-  hoshii: boolean;
-  noalpha: boolean;
-  rainbow: boolean;
-  imgtype: "png" | "jpeg";
-  single: boolean;
-  debug: boolean;
-}
+const top = "ああああああ";
+const bottom = "いいいいい"
 
 const option: Option = {
-  top: "ああああああ",
-  bottom: "いいいいい",
   hoshii: false,
   noalpha: true,
   rainbow: false,
@@ -27,26 +18,26 @@ const option: Option = {
 registerFont("./src/notobk-subset.otf", {family: "notobk"});
 registerFont("./src/notoserifbk-subset.otf", {family: "notoserifbk"});
 
-const canvas = new Canvas(createCanvas(3840,1080),{hoshii: option.hoshii,noalpha: option.noalpha,single: option.single,debug: option.debug});
+const canvas = new Canvas(createCanvas(3840,1080),option);
 
 if(!option.single){
-  canvas.redrawTop(option.top,option.rainbow);
+  canvas.redrawTop(top,option.rainbow);
 
   if(!option.hoshii){
-    canvas.redrawBottom(option.bottom,null,option.rainbow);
+    canvas.redrawBottom(bottom,null,option.rainbow);
   }else{
     canvas.redrawImage();
   }
 }else{
-  if(option.top){
-    canvas.redrawTop(option.top,option.rainbow);
+  if(top){
+    canvas.redrawTop(top,option.rainbow);
   }else{
-    canvas.redrawBottom(option.bottom,null,option.rainbow);
+    canvas.redrawBottom(bottom,null,option.rainbow);
   }
 }
 
-canvas.createBuffer(option.imgtype,(data)=>{
-   fs.writeFile(`output.${option.imgtype}`,data,(err)=>{
+canvas.createBuffer(option.imgtype,(data: Buffer)=>{
+   fs.writeFile(`output.${option.imgtype}`,data,(err: Error | null)=>{
     if(err){
       console.error("画像保存中にエラーが発生しました:",err);
     }else{

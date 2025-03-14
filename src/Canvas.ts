@@ -1,20 +1,21 @@
 import Drawer from "./Drawer";
 import { CanvasRenderingContext2D } from "canvas";
+import { Option } from "./@types";
 
 class Canvas{
   public canvas: any
   public ctx: CanvasRenderingContext2D;
   public offset;
-  public fixedX;
-  public dragging;
+  public fixedX: number;
+  public dragging: boolean;
   public dragPosition;
-  public hoshii;
-  public noalpha;
-  public single;
-  public debug;
-  public drawer;
+  public hoshii: boolean;
+  public noalpha: boolean;
+  public single: boolean;
+  public debug: boolean;
+  public drawer: Drawer;
 
-  constructor(canvas: any,config: any){
+  constructor(canvas: any,config: Option){
     this.canvas = canvas;
     
     this.ctx = canvas.getContext("2d");
@@ -37,20 +38,19 @@ class Canvas{
     this.noalpha = config.noalpha;
     this.single = config.single;
     this.debug = config.debug;
-    config.offset = this.offset;
-  
+
     this.drawer = new Drawer(this.ctx,config);
   }
 
-  upperEndPosition(){
+  public upperEndPosition(): number{
     return this.canvas.getBoundingClientRect().top + this.offset.bottom.y;
   }
   
-  lowerEndPosition(){
+  public lowerEndPosition(): number{
     return this.canvas.getBoundingClientRect().top + (this.canvas.height - 10);
   }
 
-  redrawTop(text: string, isRainbow: boolean){
+  public redrawTop(text: string, isRainbow: boolean): void{
     let posX = 70;
     let posY = 100;
     let order = this.noalpha ? "white" : "transparent";
@@ -62,9 +62,9 @@ class Canvas{
     }
   
     if(isRainbow){
-      this.drawer.redrawTop_rainbow(text, posX, posY, order);
+      this.drawer.redrawTop_rainbow(text,posX,posY,order);
     }else{
-      this.drawer.redrawTop(text, posX, posY, order);
+      this.drawer.redrawTop(text,posX,posY,order);
     }
   
     if(this.hoshii){
@@ -74,7 +74,7 @@ class Canvas{
     }
   }
   
-  redrawBottom(txt: string,offsetX: number | null,isRainbow: boolean){
+  public redrawBottom(txt: string,offsetX: number | null,isRainbow: boolean): void{
     const text = txt.replace(/！/,"!");
     let posX = (offsetX || this.offset.bottom.x) + 70;
     let posY = this.offset.bottom.y + 100;
@@ -87,25 +87,26 @@ class Canvas{
     }
 
     if(isRainbow){
-      this.drawer.redrawBottom_rainbow(text,posX,posY, order);
+      this.drawer.redrawBottom_rainbow(text,posX,posY,order);
     }else{
-      this.drawer.redrawBottom(text,posX,posY, order);
+      this.drawer.redrawBottom(text,posX,posY,order);
     }
   }
   
-  redrawImage(offsetX?: number){
+  public redrawImage(offsetX?: number): void{
     const posX = (offsetX||this.offset.bottom.x) + 70;
     const posY = this.offset.bottom.y;
     let order = this.noalpha ? "white" : "transparent";
-    if (this.debug) order = "debug";
+
+    if(this.debug) order = "debug";
     this.drawer.redrawImage(posX,posY,order);
   }
   
-  save(){
+  public save(): void{
     this.drawer.save();
   }
   
-  createBuffer(type: "jpeg" | "png",callback: any,quality: number){
+  public createBuffer(type: "jpeg" | "png",callback: any,quality: number): void{
     this.drawer.createBuffer(type,callback,quality);
   }
 }

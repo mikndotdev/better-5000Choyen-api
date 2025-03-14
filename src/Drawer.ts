@@ -1,10 +1,10 @@
 import Hosii from "./Hosii";
-import Generator from "./Generater";
+import Generator from "./Generator";
 import { CanvasRenderingContext2D } from "canvas";
 
 class Drawer{
   public ctx: CanvasRenderingContext2D;
-  public actualWidth: { top: number, bottom: number} = { top:0, bottom: 0 };
+  public actualWidth: { top: number, bottom: number } = { top:0, bottom: 0 };
   public actualHeight: number = 0;
   public logo: Hosii = new Hosii();
   public generator: Generator;
@@ -17,7 +17,7 @@ class Drawer{
     this.config = config;
   }
 
-  redrawTop(text: string,posX: number,posY: number,bgColor: string){
+  public redrawTop(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notobk";
   
@@ -105,7 +105,7 @@ class Drawer{
     }
   }
 
-  redrawTop_rainbow(text: string,posX: number,posY: number,bgColor: string){
+  public redrawTop_rainbow(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notobk";
   
@@ -234,7 +234,7 @@ class Drawer{
     }
   }
 
-  redrawBottom(text: string,posX: number,posY: number,bgColor: string): void{
+  public redrawBottom(text: string,posX: number,posY: number,bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notoserifbk";
   
@@ -309,7 +309,7 @@ class Drawer{
     }
   }
 
-  redrawBottom_rainbow(text: string, posX: number, posY: number, bgColor: string): void{
+  public redrawBottom_rainbow(text: string, posX: number, posY: number, bgColor: string): void{
     this.ctx.setTransform(1,0,0,1,0,0);
     this.ctx.font = "100px notoserifbk";
   
@@ -364,7 +364,7 @@ class Drawer{
     this.ctx.lineWidth = 7;
     this.ctx.strokeText(text, posX, posY);
 
-    const silver2 = this.ctx.createLinearGradient(0, posY-80, 0, posY);
+    const silver2 = this.ctx.createLinearGradient(0,posY-80,0,posY);
     silver2.addColorStop(0,"red");
     silver2.addColorStop(0.25,"yellow");
     silver2.addColorStop(0.5,"green");
@@ -383,7 +383,7 @@ class Drawer{
     }
   }
 
-  redrawImage(posX: number,posY: number,bgColor: string,callback?: any){
+  public redrawImage(posX: number,posY: number,bgColor: string,callback?: any): void{
     this.ctx.setTransform(1,0,0,1,0,0);
   
     switch(bgColor){
@@ -401,24 +401,24 @@ class Drawer{
     }else{
       this.logo.self.onload = ()=>{
         this.logo.drawTo(this.ctx,posX,posY);
-        if (callback) callback();
+        if(callback) callback();
       }      
     }
   
     this.actualWidth.bottom = 370 + posX;
     this.actualHeight = 200 + posY;
   
-    if (callback) callback();
+    if(callback) callback();
   }
 
-  save(){
+  public save(): void{
     const width = Math.max(this.actualWidth.top,this.actualWidth.bottom);
 
     const height = this.ctx.canvas.height/4;
     this.generator.save(width,height);
   }
 
-  createBuffer(type: "jpeg" | "png",callback: any,quality: number){
+  public createBuffer(type: "jpeg" | "png",callback: any,quality: number): void{
     const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
 
     const height = this.actualHeight - 60;
