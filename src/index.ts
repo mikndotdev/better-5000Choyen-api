@@ -1,28 +1,21 @@
 import Canvas from "./Canvas";
 import { createCanvas, registerFont } from "canvas";
+const fs = require("fs")
+
+registerFont("./src/notobk-subset.otf", {family: "notobk"});
+registerFont("./src/notoserifbk-subset.otf", {family: "notoserifbk"});
 
 const canvas = new Canvas(createCanvas(3840,1080), {hoshii: false, noalpha: false, single: false, debug: false});
 
-if (!false) {
-  canvas.redrawTop(args.top, rainbow);
+canvas.redrawTop("あああああ", false);
+canvas.redrawBottom("あああああ", null, false);
 
-  if (! false) {
-    canvas.redrawBottom(args.bottom, null, rainbow);
-  } else {
-    canvas.redrawImage();
-  }
-}else{
-  if (args.top) {
-    canvas.redrawTop(args.top, rainbow);
-  }else{
-    canvas.redrawBottom(args.bottom, null, rainbow);
-  }
-}
-
-resp.writeHead(200, {'Content-type': 'image/'+imgtype});
-canvas.createBuffer(imgtype, function (data) {
-   resp.write(data);
-   resp.end();
-   fs.writeFileSync(cachename, data); // save cache
-   currentTasks--;
-}, args.q);
+canvas.createBuffer("jpeg",(data)=>{
+   fs.writeFile("output.jpeg", data, (err) => {
+    if(err){
+      console.error("画像保存中にエラーが発生しました:", err);
+    }else{
+      console.log("画像が正常に保存されました");
+    }
+  });
+},80);

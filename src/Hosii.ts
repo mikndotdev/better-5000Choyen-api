@@ -1,26 +1,26 @@
-import { createCanvas, loadImage, CanvasRenderingContext2D } from "canvas";
-import { join } from "path";
+import { Image } from "canvas";
 
-class Hosii {
-  private self: any;
+class Hosii{
+  public readonly self: Image = new Image();
 
-  constructor() {
-    const imagePath = join(__dirname, "images", "hosii.png");
-    this.self = loadImage(imagePath);
+  constructor(){
+    this.self.src = "images/hosii.png";
   }
 
-  public async isLoaded(): Promise<boolean> {
-    try {
-      await this.self;
-      return true;
-    } catch {
-      return false;
-    }
+  public isLoaded(): boolean{
+    if(!this.self.complete) return false;
+
+    if(
+      typeof this.self.naturalWidth !== "undefined"&&
+      this.self.naturalWidth === 0
+    ) return false;
+
+    return true;
   }
 
-  public async drawTo(ctx: CanvasRenderingContext2D, posX: number, posY: number): Promise<void> {
-    const image = await this.self;
-    ctx.drawImage(image, posX + 5, posY + 2);
+  public drawTo(ctx: CanvasRenderingContext2D,posX: number,posY: number): void{
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.drawImage(this.self,posX+5,posY+2);
   }
 }
 

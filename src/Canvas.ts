@@ -16,14 +16,14 @@ class Canvas{
   constructor(canvas: any,config: any){
     this.canvas = canvas;
     
-    this.ctx = canvas.getContext('2d');
-    this.ctx.lineJoin = 'round';
-    this.ctx.lineCap = 'round';
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx = canvas.getContext("2d");
+    this.ctx.lineJoin = "round";
+    this.ctx.lineCap = "round";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
     
     this.offset = {
-      top:    { x: 0, y: 0 },
+      top: { x: 0, y: 0 },
       bottom: { x: 250, y: 130 }
     };
   
@@ -52,8 +52,8 @@ class Canvas{
   redrawTop(text: string, isRainbow: boolean){
     let posX = 70;
     let posY = 100;
-    let order = this.noalpha ? 'white' : 'transparent';
-    if (this.debug) order = 'debug';
+    let order = this.noalpha ? "white" : "transparent";
+    if (this.debug) order = "debug";
     if(this.single){
       posX = this.fixedX;
       posY = 100;
@@ -72,13 +72,13 @@ class Canvas{
     }
   }
   
-  redrawBottom(txt: string,offsetX: number,isRainbow: boolean){
+  redrawBottom(txt: string,offsetX: number | null,isRainbow: boolean){
     const text  = txt.replace(/！/, `!`);
     let posX = (offsetX || this.offset.bottom.x) + 70;
     let posY = this.offset.bottom.y + 100;
-    let order = this.noalpha ? 'white' : 'transparent';
+    let order = this.noalpha ? "white" : "transparent";
 
-    if(this.debug) order = 'debug';
+    if(this.debug) order = "debug";
     if(this.single){
       posX = this.fixedX;
       posY = 100;
@@ -94,8 +94,8 @@ class Canvas{
   redrawImage(offsetX?: number){
     const posX = (offsetX || this.offset.bottom.x) + 70;
     const posY = this.offset.bottom.y;
-    let order = this.noalpha ? 'white' : 'transparent';
-    if (this.debug) order = 'debug';
+    let order = this.noalpha ? "white" : "transparent";
+    if (this.debug) order = "debug";
     this.drawer.redrawImage(posX,posY,order);
   }
   

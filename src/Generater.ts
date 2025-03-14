@@ -36,21 +36,27 @@ class Generator{
       quality = 100;
     }
   
-    const encodeOption: { quality?: number, compressionLevel?: number } = {};
     if(type === "jpeg"){
-      encodeOption.quality = quality ? quality/100 : 0.8;
+      canvas.toBuffer((err,buf)=>{
+        if(err){
+          console.log(err);
+          callback("error");
+          return;
+        }
+        return callback(buf);
+      },`image/jpeg`,{ quality: quality ? quality/100 : 0.8});
     }else if(type === "png"){
-      encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
-    }
+      //encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
 
-    canvas.toBuffer((err,buf)=>{
-      if(err){
-        console.log(err);
-        callback("error");
-        return;
-      }
-      return callback(buf);
-    },`image/jpeg`,encodeOption);
+      canvas.toBuffer((err,buf)=>{
+        if(err){
+          console.log(err);
+          callback("error");
+          return;
+        }
+        return callback(buf);
+      },`image/png`,{ compressionLevel: 0 });
+    }
   }  
 }
 
