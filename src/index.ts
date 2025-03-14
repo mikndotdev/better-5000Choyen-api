@@ -15,8 +15,8 @@ const option: Option = {
   debug: false
 }
 
-registerFont("./src/notobk-subset.otf", {family: "notobk"});
-registerFont("./src/notoserifbk-subset.otf", {family: "notoserifbk"});
+registerFont("./src/font/notobk-subset.otf",{family: "notobk"});
+registerFont("./src/font/notoserifbk-subset.otf",{family: "notoserifbk"});
 
 const render = new Render(createCanvas(3840,1080),option);
 

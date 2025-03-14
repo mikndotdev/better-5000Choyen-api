@@ -1,6 +1,5 @@
 import Hoshii from "./Hoshii";
-import Generator from "./Generator";
-import { CanvasRenderingContext2D } from "canvas";
+import { CanvasRenderingContext2D, createCanvas } from "canvas";
 import { Option } from "./@types";
 
 class Drawer{
@@ -8,13 +7,11 @@ class Drawer{
   public actualWidth: { top: number, bottom: number } = { top:0, bottom: 0 };
   public actualHeight: number = 0;
   public logo: Hoshii = new Hoshii();
-  public generator: Generator;
   public fixedHeight: number = 220;
   public config: Option
 
   constructor(ctx: CanvasRenderingContext2D, config: Option){
     this.ctx = ctx;
-    this.generator = new Generator(this.ctx);
     this.config = config;
   }
 
@@ -412,18 +409,46 @@ class Drawer{
     if(callback) callback();
   }
 
-  public save(): void{
-    const width = Math.max(this.actualWidth.top,this.actualWidth.bottom);
-
-    const height = this.ctx.canvas.height/4;
-    this.generator.save(width,height);
-  }
-
   public createBuffer(type: "jpeg" | "png",callback: any,quality: number): void{
     const width = Math.max(this.actualWidth.top, this.actualWidth.bottom);
-
     const height = this.actualHeight - 60;
-    this.generator.createBuffer(width,height,type,callback,quality);
+
+    const data = this.ctx.getImageData(0,0,width,height);
+    const canvasWidth = data.width;
+    const canvasHeight = data.height - 10;
+    const canvas = createCanvas(canvasWidth,canvasHeight);
+    const ctx = canvas.getContext("2d");
+    ctx.putImageData(data,0,0);
+  
+    if(quality < 0){
+      quality = 10;
+    }else if(quality > 100){
+      quality = 100;
+    }
+  
+    if(type === "jpeg"){
+      canvas.toBuffer((err,buf)=>{
+        if(err){
+          console.log(err);
+          callback("error");
+          return;
+        }
+
+        return callback(buf);
+      },`image/jpeg`,{ quality: quality ? quality/100 : 0.8});
+    }else if(type === "png"){
+      //encodeOption.compressionLevel = quality ? Math.floor((quality/100)*10) : 10;
+
+      canvas.toBuffer((err,buf)=>{
+        if(err){
+          console.log(err);
+          callback("error");
+          return;
+        }
+
+        return callback(buf);
+      },`image/png`,{ compressionLevel: 0 });
+    }
   }
 }
 

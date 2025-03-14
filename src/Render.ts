@@ -93,11 +93,7 @@ class Render{
     if(this.debug) order = "debug";
     this.drawer.drawImage(posX,posY,order);
   }
-  
-  public save(): void{
-    this.drawer.save();
-  }
-  
+
   public createBuffer(type: "jpeg" | "png",callback: any,quality: number): void{
     this.drawer.createBuffer(type,callback,quality);
   }
