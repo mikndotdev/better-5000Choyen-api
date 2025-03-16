@@ -1,50 +1,79 @@
 import Render from "./Render";
-import {
-  createCanvas,
-  registerFont
-} from "canvas";
+import { createCanvas, GlobalFonts } from "@napi-rs/canvas";
 import { Option } from "./@types";
-import fs from "fs";
+import { Hono } from "hono";
+
+GlobalFonts.registerFromPath("./src/font/notobk-subset.otf", "notobk");
+GlobalFonts.registerFromPath(
+    "./src/font/notoserifbk-subset.otf",
+    "notoserifbk",
+);
 
 const top = "ああああああ";
 const bottom = "いいいいい";
 
 const option: Option = {
-  hoshii: false,
-  noalpha: true,
-  rainbow: false,
-  imgtype: "png",
-  single: false,
-  debug: false
-}
+    hoshii: false,
+    noalpha: true,
+    rainbow: false,
+    imgtype: "png",
+    single: false,
+    debug: false,
+};
 
-registerFont("./src/font/notobk-subset.otf",{family: "notobk"});
-registerFont("./src/font/notoserifbk-subset.otf",{family: "notoserifbk"});
+const app = new Hono();
+const render = new Render(createCanvas(3840, 1080), option);
 
-const render = new Render(createCanvas(3840,1080),option);
+app.get("/image", (c) => {
+    const topText = c.req.query("top");
+    const bottomText = c.req.query("bottom");
+    const type = c.req.query("type") === "jpeg" ? "jpeg" : "png";
+    const rainbow = c.req.query("rainbow") === "true";
+    const hoshii = c.req.query("hoshii") === "true";
+    const noalpha = c.req.query("noalpha") === "true";
+    const single = c.req.query("single") === "true";
 
-if(!option.single){
-  render.drawTop(top,option.rainbow);
+    if (!topText && !bottomText) {
+        return c.json(
+            {
+                error: "at least one of top or bottom query parameters is required",
+            },
+            400,
+        );
+    }
 
-  if(!option.hoshii){
-    render.drawBottom(bottom,null,option.rainbow);
-  }else{
-    render.drawImage();
-  }
-}else{
-  if(top){
-    render.drawTop(top,option.rainbow);
-  }else{
-    render.drawBottom(bottom,null,option.rainbow);
-  }
-}
+    const option: Option = {
+        hoshii,
+        noalpha,
+        rainbow,
+        imgtype: type,
+        single,
+        debug: false,
+    };
 
-const data = render.createBuffer(option.imgtype,100);
+    const render = new Render(createCanvas(3840, 1080), option);
 
-fs.writeFile(`output.${option.imgtype}`,data,(err: Error | null)=>{
-  if(err){
-    console.error("画像保存中にエラーが発生しました:",err);
-  }else{
-    console.log("画像が正常に保存されました");
-  }
+    if (!option.single) {
+        render.drawTop(topText || "", option.rainbow);
+
+        if (!option.hoshii) {
+            render.drawBottom(bottomText || "", null, option.rainbow);
+        } else {
+            render.drawImage();
+        }
+    } else {
+        if (topText) {
+            render.drawTop(topText, option.rainbow);
+        } else {
+            render.drawBottom(bottomText || "", null, option.rainbow);
+        }
+    }
+
+    const data = render.createBuffer(option.imgtype, 100);
+    return c.body(data, 200, { "Content-Type": `image/${option.imgtype}` });
 });
+
+export default {
+    port: process.env.PORT,
+    fetch: app.fetch,
+};
